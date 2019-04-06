@@ -1,0 +1,23 @@
+{
+  "name": "triptych",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lancasja/triptych.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lancasja/triptych/issues"
+  },
+  "homepage": "https://github.com/lancasja/triptych#readme",
+  "devDependencies": {
+    "sass": "^1.17.4"
+  }
+}

@@ -1,0 +1,378 @@
+body {
+  font-family: sans-serif;
+  background-color:black;
+  background-image:
+    radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+    radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),
+    radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);
+  background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;
+  background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+
+}
+  
+/* ==============
+VARIABLES
+-------------- */
+$light-delay: 5s;
+
+/* ==============
+MIXINS
+-------------- */
+@mixin box-shadow($color, $opacity) {
+  box-shadow: 0px 160px 200px 100px rgba($color, $opacity);
+}
+
+/* ==============
+STAGE
+-------------- */
+#artwork {
+  width: 766px;
+  height: 370px;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+#canvas, #frame {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+#canvas {
+  background: linear-gradient(-140deg, rgba(#aaa, 1) 0%, beige 60%);
+
+  > div {
+    position: absolute;
+  }
+}
+
+#frame {
+  color: darkslategray;
+
+  svg {
+    filter: drop-shadow(0px 0px 12px rgba(0,0,0,0.35));
+
+    .main-stop {
+      stop-color: #603813;
+    }
+
+    .alt-stop {
+      stop-color: #b29f94;
+    }
+  }
+}
+
+/* ==============
+STAGE PROPS
+-------------- */
+.ghost-frame {
+  bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: move-ghost-1 6s ease-in-out;
+  animation-fill-mode: forwards;
+
+  .ghost {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: teal;
+    left: 24px;
+
+    &::before {
+      content: ". .";
+      font-size: 60px;
+      position: absolute;
+      top: -20px;
+      right: 0;
+      animation: look-around 6s ease-out 5s;
+    } 
+  }
+
+  .shadow {
+    width: 40px;
+    height: 10px;
+    background: rgba(#333, 0.2);
+    margin-top: 30px;
+    border-radius: 50%;
+    animation: ghost-shadow 3s ease-out infinite;
+  }
+
+  &.panel1 {
+    animation: move-ghost-1 6s ease-in-out;
+    animation-fill-mode: forwards;
+
+    .ghost {
+      animation:
+        float 3s ease-out infinite,
+        turn-gold 2s ease-in 8s;
+      animation-fill-mode: forwards;
+
+      &::before {
+        animation:
+          look-around 8s ease-out 5s,
+          nod 2s ease 33s,
+          look-forwards 2s ease-out 52s;
+        animation-fill-mode: forwards;
+      }
+    }
+  }
+
+  &.panel2 {
+    animation:
+      move-ghost-1 6s ease-in-out,
+      move-ghost-2 6s ease-in-out 12s;
+    animation-fill-mode: forwards;
+
+    .ghost {
+      animation:
+        float 3s ease-out infinite,
+        turn-gold 2s ease-in 8s,
+        turn-red 2s ease-in 21s;
+      animation-fill-mode: forwards;
+      
+      &::before {
+        animation:
+          look-around 8s ease-out 18s,
+          nod 2s ease 33s,
+          look-forwards 2s ease-out 51s;
+        animation-fill-mode: forwards;
+      }
+    }
+  }
+  
+  &.panel3 {
+    animation:
+      move-ghost-1 6s ease-in-out,
+      move-ghost-2 6s ease-in-out 12s,
+      move-ghost-3 6s ease-in-out 26s,
+      move-ghost-final 3s ease-in-out 37s;
+    animation-fill-mode: forwards;
+
+    .ghost {
+      animation:
+        float 3s ease-out infinite,
+        turn-gold 2s ease-in 8s,
+        turn-red 2s ease-in 21s,
+        turn-blue 2s ease-in 43s;
+      animation-fill-mode: forwards;
+      
+      &::before {
+        animation:
+          look-back 5s ease 31s,
+          look-around 8s ease-out 40s,
+          look-forwards 2s ease-out 50s;
+        animation-fill-mode: forwards;
+      }
+    }
+  }
+}
+
+.light {
+  width: 10px;
+  height: 50px;
+  top: 100;
+  background: black;
+  animation-fill-mode: forwards;
+  
+  // Light shade
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100px;
+    height: 50px;
+    background: linear-gradient(0deg, rgba(68,68,68,1) 0%, rgba(25,25,25,1) 100%);
+    top: 30px;
+    left: -45px;
+    border-top-right-radius: 50%;
+    border-top-left-radius: 50%;
+  }
+
+  // Light bulb
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: white;
+    top: 55px;
+    border-radius: 50%;
+    left: -10px;
+  }
+
+  // Light position
+  &.panel1 {
+    left: 136px;
+
+    // Animate light coming on in panel1
+    &::before {
+      animation: yellow-light-on 1s ease-in 6s;
+      box-shadow: 0px 160px 200px 100px rgba(white, 0);
+      animation-fill-mode: forwards;
+    }
+  }
+  
+  &.panel2 {
+    left: 50%;
+    color: lightcoral;
+    
+    // Animate light coming on in panel2
+    &::before {
+      animation: red-light-on 1s ease-in 20s;
+      box-shadow: 0px 160px 200px 100px rgba(white, 0);
+      animation-fill-mode: forwards;
+    }
+  }
+  
+  &.panel3 {
+    right: 136px;
+    color: deepskyblue;
+
+    // Animate light coming on in panel3
+    &::before {
+      animation: blue-light-on 1s ease-in 42s;
+      box-shadow: 0px 160px 200px 100px rgba(white, 0);
+      animation-fill-mode: forwards;
+    }
+  }
+}
+
+/* ==============
+ANIMATIONS
+-------------- */
+
+// Ghost floating
+@keyframes float {
+  50% {
+     transform: translate(0, 10px);
+  }
+}
+
+// Move ghost into panel 1
+@keyframes move-ghost-1 {
+  100% { transform: translateX(100px); }
+}
+
+// Move ghost into panel 2
+@keyframes move-ghost-2 {
+  0% { transform: translateX(100px); }
+  100% { transform: translateX(340px); }
+}
+
+// Move ghost into panel 3
+@keyframes move-ghost-3 {
+  0% { transform: translateX(340px); }
+  100% { transform: translateX(500px); }
+}
+
+// Finish moving ghost into panel 3
+@keyframes move-ghost-final {
+  0% { transform: translateX(500px); }
+  100% { transform: translateX(580px); }
+}
+
+// Animate shadow
+@keyframes ghost-shadow {
+  50% {
+    transform: scale(1.2);
+ }
+}
+
+@keyframes look-around {
+  10% {
+    transform: translate(-10px, 0);
+  }
+  30% {
+    transform: translate(-10px, 0);
+  }
+  50% {
+    transform: translate(-10px, -10px);
+  }
+  70% {
+    transform: translate(-10px, -10px);
+  }
+  100% {
+    transform: translate(0, 0px);
+  }
+}
+
+@keyframes nod {
+  20% {
+    transform: translate(0, -3px);
+  }
+  50% {
+    transform: translate(0, 5px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes look-back {
+  25% {
+    transform: translate(-20px, 0);
+  }
+  80% {
+    transform: translate(-20px, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes look-forwards {
+  100% { transform: translate(-10px, 0); }
+}
+
+@keyframes turn-gold {
+  100% { background: gold; }
+}
+
+@keyframes turn-red {
+  0% { background: gold; }
+  100% { background: tomato; }
+}
+
+@keyframes turn-blue {
+  0% { background: tomato; }
+  100% { background: dodgerblue; }
+}
+
+// Lights
+@keyframes yellow-light-on {
+  100% {
+    box-shadow:
+      0px 160px 200px 100px rgba(gold, 0.75);
+    background: gold;
+  }
+}
+
+@keyframes red-light-on {
+  100% {
+    box-shadow:
+      0px 160px 200px 100px rgba(tomato, 0.75);
+    background: lightcoral;
+  }
+}
+
+@keyframes blue-light-on {
+  100% {
+    box-shadow:
+      0px 160px 200px 100px rgba(deepskyblue, 0.75);
+    background: deepskyblue;
+  }
+}
+
+/* ==============
+HELPERS
+-------------- */
+
+// Pause animations
+.stop {
+  animation-play-state: paused;
+}

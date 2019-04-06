@@ -1,0 +1,578 @@
+body {
+  font-family: sans-serif;
+  background-color: black;
+  background-image: radial-gradient(white, rgba(255, 255, 255, 0.2) 2px, transparent 40px), radial-gradient(white, rgba(255, 255, 255, 0.15) 1px, transparent 30px), radial-gradient(white, rgba(255, 255, 255, 0.1) 2px, transparent 40px), radial-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1) 2px, transparent 30px);
+  background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;
+  background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+}
+
+/* ==============
+VARIABLES
+-------------- */
+/* ==============
+MIXINS
+-------------- */
+/* ==============
+STAGE
+-------------- */
+#artwork {
+  width: 766px;
+  height: 370px;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+#canvas, #frame {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+#canvas {
+  background: linear-gradient(-140deg, #aaaaaa 0%, beige 60%);
+}
+
+#canvas > div {
+  position: absolute;
+}
+
+#frame {
+  color: darkslategray;
+}
+
+#frame svg {
+  -webkit-filter: drop-shadow(0px 0px 12px rgba(0, 0, 0, 0.35));
+          filter: drop-shadow(0px 0px 12px rgba(0, 0, 0, 0.35));
+}
+
+#frame svg .main-stop {
+  stop-color: #603813;
+}
+
+#frame svg .alt-stop {
+  stop-color: #b29f94;
+}
+
+/* ==============
+STAGE PROPS
+-------------- */
+.ghost-frame {
+  bottom: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-animation: move-ghost-1 6s ease-in-out;
+          animation: move-ghost-1 6s ease-in-out;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.ghost-frame .ghost {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: teal;
+  left: 24px;
+}
+
+.ghost-frame .ghost::before {
+  content: ". .";
+  font-size: 60px;
+  position: absolute;
+  top: -20px;
+  right: 0;
+  -webkit-animation: look-around 6s ease-out 5s;
+          animation: look-around 6s ease-out 5s;
+}
+
+.ghost-frame .shadow {
+  width: 40px;
+  height: 10px;
+  background: rgba(51, 51, 51, 0.2);
+  margin-top: 30px;
+  border-radius: 50%;
+  -webkit-animation: ghost-shadow 3s ease-out infinite;
+          animation: ghost-shadow 3s ease-out infinite;
+}
+
+.ghost-frame.panel1 {
+  -webkit-animation: move-ghost-1 6s ease-in-out;
+          animation: move-ghost-1 6s ease-in-out;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.ghost-frame.panel1 .ghost {
+  -webkit-animation: float 3s ease-out infinite, turn-gold 2s ease-in 8s;
+          animation: float 3s ease-out infinite, turn-gold 2s ease-in 8s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.ghost-frame.panel1 .ghost::before {
+  -webkit-animation: look-around 8s ease-out 5s, nod 2s ease 33s, look-forwards 2s ease-out 52s;
+          animation: look-around 8s ease-out 5s, nod 2s ease 33s, look-forwards 2s ease-out 52s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.ghost-frame.panel2 {
+  -webkit-animation: move-ghost-1 6s ease-in-out, move-ghost-2 6s ease-in-out 12s;
+          animation: move-ghost-1 6s ease-in-out, move-ghost-2 6s ease-in-out 12s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.ghost-frame.panel2 .ghost {
+  -webkit-animation: float 3s ease-out infinite, turn-gold 2s ease-in 8s, turn-red 2s ease-in 21s;
+          animation: float 3s ease-out infinite, turn-gold 2s ease-in 8s, turn-red 2s ease-in 21s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.ghost-frame.panel2 .ghost::before {
+  -webkit-animation: look-around 8s ease-out 18s, nod 2s ease 33s, look-forwards 2s ease-out 51s;
+          animation: look-around 8s ease-out 18s, nod 2s ease 33s, look-forwards 2s ease-out 51s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.ghost-frame.panel3 {
+  -webkit-animation: move-ghost-1 6s ease-in-out, move-ghost-2 6s ease-in-out 12s, move-ghost-3 6s ease-in-out 26s, move-ghost-final 3s ease-in-out 37s;
+          animation: move-ghost-1 6s ease-in-out, move-ghost-2 6s ease-in-out 12s, move-ghost-3 6s ease-in-out 26s, move-ghost-final 3s ease-in-out 37s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.ghost-frame.panel3 .ghost {
+  -webkit-animation: float 3s ease-out infinite, turn-gold 2s ease-in 8s, turn-red 2s ease-in 21s, turn-blue 2s ease-in 43s;
+          animation: float 3s ease-out infinite, turn-gold 2s ease-in 8s, turn-red 2s ease-in 21s, turn-blue 2s ease-in 43s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.ghost-frame.panel3 .ghost::before {
+  -webkit-animation: look-back 5s ease 31s, look-around 8s ease-out 40s, look-forwards 2s ease-out 50s;
+          animation: look-back 5s ease 31s, look-around 8s ease-out 40s, look-forwards 2s ease-out 50s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.light {
+  width: 10px;
+  height: 50px;
+  top: 100;
+  background: black;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.light::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  background: -webkit-gradient(linear, left bottom, left top, from(#444444), to(#191919));
+  background: linear-gradient(0deg, #444444 0%, #191919 100%);
+  top: 30px;
+  left: -45px;
+  border-top-right-radius: 50%;
+  border-top-left-radius: 50%;
+}
+
+.light::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: white;
+  top: 55px;
+  border-radius: 50%;
+  left: -10px;
+}
+
+.light.panel1 {
+  left: 136px;
+}
+
+.light.panel1::before {
+  -webkit-animation: yellow-light-on 1s ease-in 6s;
+          animation: yellow-light-on 1s ease-in 6s;
+  -webkit-box-shadow: 0px 160px 200px 100px rgba(255, 255, 255, 0);
+          box-shadow: 0px 160px 200px 100px rgba(255, 255, 255, 0);
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.light.panel2 {
+  left: 50%;
+  color: lightcoral;
+}
+
+.light.panel2::before {
+  -webkit-animation: red-light-on 1s ease-in 20s;
+          animation: red-light-on 1s ease-in 20s;
+  -webkit-box-shadow: 0px 160px 200px 100px rgba(255, 255, 255, 0);
+          box-shadow: 0px 160px 200px 100px rgba(255, 255, 255, 0);
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.light.panel3 {
+  right: 136px;
+  color: deepskyblue;
+}
+
+.light.panel3::before {
+  -webkit-animation: blue-light-on 1s ease-in 42s;
+          animation: blue-light-on 1s ease-in 42s;
+  -webkit-box-shadow: 0px 160px 200px 100px rgba(255, 255, 255, 0);
+          box-shadow: 0px 160px 200px 100px rgba(255, 255, 255, 0);
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+/* ==============
+ANIMATIONS
+-------------- */
+@-webkit-keyframes float {
+  50% {
+    -webkit-transform: translate(0, 10px);
+            transform: translate(0, 10px);
+  }
+}
+@keyframes float {
+  50% {
+    -webkit-transform: translate(0, 10px);
+            transform: translate(0, 10px);
+  }
+}
+
+@-webkit-keyframes move-ghost-1 {
+  100% {
+    -webkit-transform: translateX(100px);
+            transform: translateX(100px);
+  }
+}
+
+@keyframes move-ghost-1 {
+  100% {
+    -webkit-transform: translateX(100px);
+            transform: translateX(100px);
+  }
+}
+
+@-webkit-keyframes move-ghost-2 {
+  0% {
+    -webkit-transform: translateX(100px);
+            transform: translateX(100px);
+  }
+  100% {
+    -webkit-transform: translateX(340px);
+            transform: translateX(340px);
+  }
+}
+
+@keyframes move-ghost-2 {
+  0% {
+    -webkit-transform: translateX(100px);
+            transform: translateX(100px);
+  }
+  100% {
+    -webkit-transform: translateX(340px);
+            transform: translateX(340px);
+  }
+}
+
+@-webkit-keyframes move-ghost-3 {
+  0% {
+    -webkit-transform: translateX(340px);
+            transform: translateX(340px);
+  }
+  100% {
+    -webkit-transform: translateX(500px);
+            transform: translateX(500px);
+  }
+}
+
+@keyframes move-ghost-3 {
+  0% {
+    -webkit-transform: translateX(340px);
+            transform: translateX(340px);
+  }
+  100% {
+    -webkit-transform: translateX(500px);
+            transform: translateX(500px);
+  }
+}
+
+@-webkit-keyframes move-ghost-final {
+  0% {
+    -webkit-transform: translateX(500px);
+            transform: translateX(500px);
+  }
+  100% {
+    -webkit-transform: translateX(580px);
+            transform: translateX(580px);
+  }
+}
+
+@keyframes move-ghost-final {
+  0% {
+    -webkit-transform: translateX(500px);
+            transform: translateX(500px);
+  }
+  100% {
+    -webkit-transform: translateX(580px);
+            transform: translateX(580px);
+  }
+}
+
+@-webkit-keyframes ghost-shadow {
+  50% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+  }
+}
+
+@keyframes ghost-shadow {
+  50% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+  }
+}
+
+@-webkit-keyframes look-around {
+  10% {
+    -webkit-transform: translate(-10px, 0);
+            transform: translate(-10px, 0);
+  }
+  30% {
+    -webkit-transform: translate(-10px, 0);
+            transform: translate(-10px, 0);
+  }
+  50% {
+    -webkit-transform: translate(-10px, -10px);
+            transform: translate(-10px, -10px);
+  }
+  70% {
+    -webkit-transform: translate(-10px, -10px);
+            transform: translate(-10px, -10px);
+  }
+  100% {
+    -webkit-transform: translate(0, 0px);
+            transform: translate(0, 0px);
+  }
+}
+
+@keyframes look-around {
+  10% {
+    -webkit-transform: translate(-10px, 0);
+            transform: translate(-10px, 0);
+  }
+  30% {
+    -webkit-transform: translate(-10px, 0);
+            transform: translate(-10px, 0);
+  }
+  50% {
+    -webkit-transform: translate(-10px, -10px);
+            transform: translate(-10px, -10px);
+  }
+  70% {
+    -webkit-transform: translate(-10px, -10px);
+            transform: translate(-10px, -10px);
+  }
+  100% {
+    -webkit-transform: translate(0, 0px);
+            transform: translate(0, 0px);
+  }
+}
+
+@-webkit-keyframes nod {
+  20% {
+    -webkit-transform: translate(0, -3px);
+            transform: translate(0, -3px);
+  }
+  50% {
+    -webkit-transform: translate(0, 5px);
+            transform: translate(0, 5px);
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+}
+
+@keyframes nod {
+  20% {
+    -webkit-transform: translate(0, -3px);
+            transform: translate(0, -3px);
+  }
+  50% {
+    -webkit-transform: translate(0, 5px);
+            transform: translate(0, 5px);
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+}
+
+@-webkit-keyframes look-back {
+  25% {
+    -webkit-transform: translate(-20px, 0);
+            transform: translate(-20px, 0);
+  }
+  80% {
+    -webkit-transform: translate(-20px, 0);
+            transform: translate(-20px, 0);
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+}
+
+@keyframes look-back {
+  25% {
+    -webkit-transform: translate(-20px, 0);
+            transform: translate(-20px, 0);
+  }
+  80% {
+    -webkit-transform: translate(-20px, 0);
+            transform: translate(-20px, 0);
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+}
+
+@-webkit-keyframes look-forwards {
+  100% {
+    -webkit-transform: translate(-10px, 0);
+            transform: translate(-10px, 0);
+  }
+}
+
+@keyframes look-forwards {
+  100% {
+    -webkit-transform: translate(-10px, 0);
+            transform: translate(-10px, 0);
+  }
+}
+
+@-webkit-keyframes turn-gold {
+  100% {
+    background: gold;
+  }
+}
+
+@keyframes turn-gold {
+  100% {
+    background: gold;
+  }
+}
+
+@-webkit-keyframes turn-red {
+  0% {
+    background: gold;
+  }
+  100% {
+    background: tomato;
+  }
+}
+
+@keyframes turn-red {
+  0% {
+    background: gold;
+  }
+  100% {
+    background: tomato;
+  }
+}
+
+@-webkit-keyframes turn-blue {
+  0% {
+    background: tomato;
+  }
+  100% {
+    background: dodgerblue;
+  }
+}
+
+@keyframes turn-blue {
+  0% {
+    background: tomato;
+  }
+  100% {
+    background: dodgerblue;
+  }
+}
+
+@-webkit-keyframes yellow-light-on {
+  100% {
+    -webkit-box-shadow: 0px 160px 200px 100px rgba(255, 215, 0, 0.75);
+            box-shadow: 0px 160px 200px 100px rgba(255, 215, 0, 0.75);
+    background: gold;
+  }
+}
+
+@keyframes yellow-light-on {
+  100% {
+    -webkit-box-shadow: 0px 160px 200px 100px rgba(255, 215, 0, 0.75);
+            box-shadow: 0px 160px 200px 100px rgba(255, 215, 0, 0.75);
+    background: gold;
+  }
+}
+
+@-webkit-keyframes red-light-on {
+  100% {
+    -webkit-box-shadow: 0px 160px 200px 100px rgba(255, 99, 71, 0.75);
+            box-shadow: 0px 160px 200px 100px rgba(255, 99, 71, 0.75);
+    background: lightcoral;
+  }
+}
+
+@keyframes red-light-on {
+  100% {
+    -webkit-box-shadow: 0px 160px 200px 100px rgba(255, 99, 71, 0.75);
+            box-shadow: 0px 160px 200px 100px rgba(255, 99, 71, 0.75);
+    background: lightcoral;
+  }
+}
+
+@-webkit-keyframes blue-light-on {
+  100% {
+    -webkit-box-shadow: 0px 160px 200px 100px rgba(0, 191, 255, 0.75);
+            box-shadow: 0px 160px 200px 100px rgba(0, 191, 255, 0.75);
+    background: deepskyblue;
+  }
+}
+
+@keyframes blue-light-on {
+  100% {
+    -webkit-box-shadow: 0px 160px 200px 100px rgba(0, 191, 255, 0.75);
+            box-shadow: 0px 160px 200px 100px rgba(0, 191, 255, 0.75);
+    background: deepskyblue;
+  }
+}
+
+/* ==============
+HELPERS
+-------------- */
+.stop {
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
+}
+/*# sourceMappingURL=styles.css.map */
